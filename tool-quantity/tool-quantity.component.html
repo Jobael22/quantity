@@ -33,6 +33,8 @@
 					<ui5-title
 						level="H5"
 						i18n
+						class="pt-2 pb-2"
+
 						>Order</ui5-title
 					>
 				</ui5-table-column>
@@ -102,10 +104,15 @@
 							<ui5-input
 								id="good-part-amount"
 								name="goodPartAmount"
+
 								#goodPartAmountModel="ngModel"
 								[min]="0"
-								type="Number"
-								[(ngModel)]="goodPartAmount">
+								[(ngModel)]="goodPartAmount"
+								[valueState]="
+													validateGoodPartAmount() == false
+														? 'Error'
+														: 'None'
+												">
 							</ui5-input>
 						</div>
 					</div>
@@ -125,8 +132,12 @@
 						<ui5-input
 							id="scrap-part-amounts"
 							class="col-span-2"
-							type="Number"
-							[(ngModel)]="scrapPartAmounts[i]"></ui5-input>
+							[(ngModel)]="scrapPartAmounts[i]"
+							[valueState]="
+													validateScrapPartAmount(i) == false
+														? 'Error'
+														: 'None'
+												"></ui5-input>
 					</div>
 				</div>
 			</div>
@@ -140,42 +151,44 @@
 							<ui5-input></ui5-input>
 						</div>
 					</div>
-					<div class="mt-3">
+					<div class="mt-3 mb-3">
 						<div class="h-[38px]">
 							<ui5-title level="H5">Add Good Parts</ui5-title>
 						</div>
-						<div class="grid grid-flow-col grid-cols-2 h-11 items-center">
-							<div class="">
+						<div class="grid grid-flow-col grid-cols-3 h-11 items-center">
+							<div class="grid col-span-1">
 								<ui5-label show-colon>Add good parts</ui5-label>
 							</div>
-							<div class="">
+							<div class="grid col-span-2">
 								<ui5-radio-button
 									id="good-part-amount"
-									name="goodPartAmount"
-									#goodPartAmountModel="ngModel"
 									name="myGroup"
-									[(ngModel)]="goodPartAmount">
+									#goodPartAmountModel="ngModel"
+									[(ngModel)]="goodPartAmount"
+									>
 								</ui5-radio-button>
 							</div>
 						</div>
 					</div>
-					<div class="h-[92px] py-3 pl-4 pr-[2px]">
-						<ui5-title
-							class="mb-3"
-							level="H5"
-							i18n
-							>Add Scrap Parts</ui5-title
-						>
-						<div
-							class="grid grid-cols-2"
-							*ngFor="let reason of badPartReasons; let i = index">
-							<ui5-label class="items-center">{{ reason.name }}:</ui5-label>
-							<ui5-radio-button
-								id="scrap-part-amounts"
-								
-								name="myGroup"
-								[(ngModel)]="scrapPartAmounts[i]"></ui5-radio-button>
-						</div>
+				</div>
+	
+				<div class="h-[92px] py-3 pl-4 pr-[2px] mt-6">
+					<ui5-title
+						class="mb-3"
+						level="H5"
+						i18n
+						>Add Scrap Parts</ui5-title
+					>
+					<div
+						class="grid grid-cols-3"
+						*ngFor="let reason of badPartReasons; let i = index">
+						<ui5-label class="items-center col-span-1">{{ reason.name }}:</ui5-label>
+						<ui5-radio-button
+							id="scrap-part-amounts"
+							class="col-span-2"
+							name="myGroup"
+							[(ngModel)]="scrapPartAmounts[i]"
+							></ui5-radio-button>
 					</div>
 				</div>
 			</div>
@@ -189,7 +202,7 @@
 							<ui5-input></ui5-input>
 						</div>
 					</div>
-					<div class="mt-3 pl-3 mb-3">
+					<div class="mt-3 mb-3">
 						<div class="h-[38px]">
 							<ui5-title level="H5">Add Good Parts</ui5-title>
 						</div>
@@ -203,8 +216,12 @@
 									name="goodPartAmount"
 									#goodPartAmountModel="ngModel"
 									[min]="0"
-									type="Number"
-									[(ngModel)]="goodPartAmount">
+									[(ngModel)]="goodPartAmount"
+									[valueState]="
+													validateGoodPartAmount() == false
+														? 'Error'
+														: 'None'
+												">
 								</ui5-input>
 							</div>
 						</div>
@@ -225,8 +242,12 @@
 						<ui5-input
 							id="scrap-part-amounts"
 							class="col-span-2"
-							type="Number"
-							[(ngModel)]="scrapPartAmounts[i]"></ui5-input>
+							[(ngModel)]="scrapPartAmounts[i]"
+							[valueState]="
+													validateScrapPartAmount(i) == false
+														? 'Error'
+														: 'None'
+												"></ui5-input>
 					</div>
 				</div>
 			</div>
