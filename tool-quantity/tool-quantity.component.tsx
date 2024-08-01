@@ -30,8 +30,8 @@ export class ToolQuantityComponent {
 	itemOnOrderSelect!: any[];
 	item!: Item;
 	isSerialViewVisible: boolean = false;
-	isDefaultView:boolean = true;
-	isBatchView:boolean = false;
+	isDefaultView: boolean = true;
+	isBatchView: boolean = false;
 	goodPartAmount: number | undefined | string = "";
 	editedScrapPartReason!: number;
 	editedGoodPartAmount: number | undefined | string = "";
@@ -51,53 +51,53 @@ export class ToolQuantityComponent {
 			Header: $localize`Date`,
 			accessor: "date_key",
 			hAlign: "Right",
-			disableFilters: true,
+			disableFilters: false,
 			disableGroupBy: true,
-			disableSortBy: true,
-			disableResizing: true,
+			disableSortBy: false,
+			disableResizing: false,
 		},
 		{
 			Header: $localize`Good Parts`,
 			accessor: "good",
 			hAlign: "Right",
-			disableFilters: true,
+			disableFilters: false,
 			disableGroupBy: true,
-			disableSortBy: true,
-			disableResizing: true,
+			disableSortBy: false,
+			disableResizing: false,
 		},
 		{
 			Header: $localize`Scrap Parts`,
 			accessor: "bad",
 			hAlign: "Right",
-			disableFilters: true,
+			disableFilters: false,
 			disableGroupBy: true,
-			disableSortBy: true,
-			disableResizing: true,
+			disableSortBy: false,
+			disableResizing: false,
 		},
 		{
 			Header: $localize`Order`,
 			accessor: "order",
 			hAlign: "Right",
-			disableFilters: true,
+			disableFilters: false,
 			disableGroupBy: true,
-			disableSortBy: true,
-			disableResizing: true,
+			disableSortBy: false,
+			disableResizing: false,
 		},
 		{
 			Header: $localize`Scrap Parts Reason`,
 			accessor: "bad_part_reason_name",
-			disableFilters: true,
+			disableFilters: false,
 			disableGroupBy: true,
-			disableSortBy: true,
-			disableResizing: true,
+			disableSortBy: false,
+			disableResizing: false,
 		},
 		{
 			Header: $localize`Employee`,
 			accessor: "user_name",
-			disableFilters: true,
+			disableFilters: false,
 			disableGroupBy: true,
-			disableSortBy: true,
-			disableResizing: true,
+			disableSortBy: false,
+			disableResizing: false,
 		},
 	];
 
@@ -112,19 +112,19 @@ export class ToolQuantityComponent {
 		this.isBatchView = true;
 		this.isSerialViewVisible = false;
 		this.isDefaultView = false;
-	  }
+	}
 
-	  showSerialView(): void {
+	showSerialView(): void {
 		this.isBatchView = false;
 		this.isSerialViewVisible = true;
 		this.isDefaultView = false;
-	  }
+	}
 
-	  showDefaultView(): void {
+	showDefaultView(): void {
 		this.isBatchView = false;
 		this.isSerialViewVisible = false;
 		this.isDefaultView = true;
-	  }
+	}
 
 	getData() {
 		this.commonService.get("quantity/20", false).subscribe({
@@ -190,6 +190,7 @@ export class ToolQuantityComponent {
 		console.log(value);
 		this.commonService.delete(`quantity/${value.id}`, false).subscribe({
 			next: (response: any) => {
+				console.log(response);
 				alert("delete successfully");
 				this.getData();
 			},
@@ -278,8 +279,8 @@ export class ToolQuantityComponent {
 				bad_part_reason_id: "",
 				quantity: this.goodPartAmount,
 				item_id: 5516,
-				serial: "Batch",
-				batch: null,
+				serial: "",
+				batch: "",
 				stockable_type: "ProdOrderPosOperation::class",
 				positionable_id: "",
 				positionable_type: "",
@@ -294,8 +295,8 @@ export class ToolQuantityComponent {
 					bad_part_reason_id: reason.id,
 					quantity: this.scrapPartAmounts[index],
 					item_id: 5516,
-					serial: "Batch",
-					batch: null,
+					serial: "",
+					batch: "",
 					stockable_type: "ProdOrderPosOperation::class",
 					positionable_id: "",
 					positionable_type: "",
@@ -349,9 +350,6 @@ export class ToolQuantityComponent {
 
 	getItemData(id: any) {
 		this.item = new Item().deserialize({ id: id });
-		console.log(this.itemImageComponent);
-
 		this.itemImageComponent?.getMedia();
-		console.log(this.itemImageComponent?.getMedia());
 	}
 }
