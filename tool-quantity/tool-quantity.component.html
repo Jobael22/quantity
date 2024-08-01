@@ -163,7 +163,8 @@
 								<ui5-radio-button
 									id="good-part-amount"
 									name="myGroup"
-									#goodPartAmountModel="ngModel"
+									
+									value="1"
 									[(ngModel)]="goodPartAmount"
 									>
 								</ui5-radio-button>
@@ -187,6 +188,7 @@
 							id="scrap-part-amounts"
 							class="col-span-2"
 							name="myGroup"
+							value="1"
 							[(ngModel)]="scrapPartAmounts[i]"
 							></ui5-radio-button>
 					</div>
