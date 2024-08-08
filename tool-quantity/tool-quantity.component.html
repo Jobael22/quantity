@@ -34,22 +34,21 @@
 						level="H5"
 						i18n
 						class="pt-2 pb-2"
-
 						>Order</ui5-title
 					>
 				</ui5-table-column>
 				<ui5-table-row>
 					<ui5-table-cell>
 						<span *ngFor="let order of OrderData; let i = index">
-							<ui5-button
+							<ui5-toggle-button
 								class="mr-2"
 								(click)="onClick(order.order_pos, $event)"
-								>{{ order.order_pos }}</ui5-button
+								>{{ order.order_pos }}</ui5-toggle-button
 							>
 						</span>
-						<ui5-button
+						<ui5-toggle-button
 							icon="overflow"
-							*ngIf="OrderData.length > 3"></ui5-button>
+							*ngIf="OrderData.length > 3"></ui5-toggle-button>
 					</ui5-table-cell>
 				</ui5-table-row>
 			</ui5-table>
@@ -87,9 +86,21 @@
 		<ui5-card class="grid col-span-2 rounded-2xl border border-solid border-gray-300">
 			<div class="packaging h-[50px] pl-4 flex items-center">
 				<ui5-title level="H5">Add Parts</ui5-title>
-				<ui5-button class="ml-2" (click)="showDefaultView()">Default_View</ui5-button>
-				<ui5-button class="ml-2" (click)="showBatchView()">Batch_View</ui5-button>
-				<ui5-button class="ml-2" (click)="showSerialView()">Serial_View</ui5-button>
+				<ui5-button
+					class="ml-2"
+					(click)="showDefaultView()"
+					>Default_View</ui5-button
+				>
+				<ui5-button
+					class="ml-2"
+					(click)="showBatchView()"
+					>Batch_View</ui5-button
+				>
+				<ui5-button
+					class="ml-2"
+					(click)="showSerialView()"
+					>Serial_View</ui5-button
+				>
 			</div>
 			<div *ngIf="isDefaultView">
 				<div class="h-[92px] py-3 pl-4 pr-[2px]">
@@ -104,20 +115,15 @@
 							<ui5-input
 								id="good-part-amount"
 								name="goodPartAmount"
-
 								#goodPartAmountModel="ngModel"
 								[min]="0"
 								[(ngModel)]="goodPartAmount"
-								[valueState]="
-													validateGoodPartAmount() == false
-														? 'Error'
-														: 'None'
-												">
+								[valueState]="validateGoodPartAmount() == false ? 'Error' : 'None'">
 							</ui5-input>
 						</div>
 					</div>
 				</div>
-	
+
 				<div class="h-[92px] py-3 pl-4 pr-[2px]">
 					<ui5-title
 						class="mb-3"
@@ -134,10 +140,8 @@
 							class="col-span-2"
 							[(ngModel)]="scrapPartAmounts[i]"
 							[valueState]="
-													validateScrapPartAmount(i) == false
-														? 'Error'
-														: 'None'
-												"></ui5-input>
+								validateScrapPartAmount(i) == false ? 'Error' : 'None'
+							"></ui5-input>
 					</div>
 				</div>
 			</div>
@@ -163,16 +167,14 @@
 								<ui5-radio-button
 									id="good-part-amount"
 									name="myGroup"
-									
 									value="1"
-									[(ngModel)]="goodPartAmount"
-									>
+									[(ngModel)]="goodPartAmount">
 								</ui5-radio-button>
 							</div>
 						</div>
 					</div>
 				</div>
-	
+
 				<div class="h-[92px] py-3 pl-4 pr-[2px] mt-6">
 					<ui5-title
 						class="mb-3"
@@ -189,8 +191,7 @@
 							class="col-span-2"
 							name="myGroup"
 							value="1"
-							[(ngModel)]="scrapPartAmounts[i]"
-							></ui5-radio-button>
+							[(ngModel)]="scrapPartAmounts[i]"></ui5-radio-button>
 					</div>
 				</div>
 			</div>
@@ -220,16 +221,14 @@
 									[min]="0"
 									[(ngModel)]="goodPartAmount"
 									[valueState]="
-													validateGoodPartAmount() == false
-														? 'Error'
-														: 'None'
-												">
+										validateGoodPartAmount() == false ? 'Error' : 'None'
+									">
 								</ui5-input>
 							</div>
 						</div>
 					</div>
 				</div>
-	
+
 				<div class="h-[92px] py-3 pl-4 pr-[2px] mt-6">
 					<ui5-title
 						class="mb-3"
@@ -246,10 +245,8 @@
 							class="col-span-2"
 							[(ngModel)]="scrapPartAmounts[i]"
 							[valueState]="
-													validateScrapPartAmount(i) == false
-														? 'Error'
-														: 'None'
-												"></ui5-input>
+								validateScrapPartAmount(i) == false ? 'Error' : 'None'
+							"></ui5-input>
 					</div>
 				</div>
 			</div>
@@ -272,7 +269,7 @@
 					button3Text="Active"
 					selectionMode="None"
 					i18n-button1Text
-					[useOdataStyles]="false"
+					[useOdataStyles]="true"
 					i18n-button2Text
 					i18n-button3Text
 					(deleteClick)="onDelete($event)"
@@ -356,3 +353,38 @@
 		</ui5-button>
 	</div>
 </ui5-dialog>
+
+<ui5-dialog
+	id="dialog"
+	header-text="Warning"
+	i18n-header-text
+	state="Warning"
+	header-text="Warning"
+	[open]="isDeleteDialog">
+	<p>Do you want to really delete this order?</p>
+	<div
+		slot="footer"
+		class="flex justify-end w-full items-end">
+		<div class="flex flex-row-reverse">
+			<ui5-button
+				design="Emphasized"
+				i18n
+				(click)="deleteRecord()"
+				>Yes</ui5-button
+			>
+			<ui5-button
+				(click)="closeDeleteDialog()"
+				class="mr-1 mb-1"
+				design="Negative"
+				>Close</ui5-button
+			>
+		</div>
+	</div>
+</ui5-dialog>
+
+<ui5-toast
+	id="deleteToast"
+	placement="BottomCenter"
+	i18n>
+	Items Deleted Successfully!
+</ui5-toast>
