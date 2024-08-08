@@ -9,6 +9,7 @@ import BadPartReason from "@app/shared/models/bad-part-reason.model";
 import { User } from "@app/shared/models/user.model";
 import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "@app/shared/services/auth.service";
+import Toast from "@ui5/webcomponents/dist/Toast";
 
 @Component({
 	selector: "app-tool-quantity",
@@ -45,6 +46,8 @@ export class ToolQuantityComponent {
 	EditItems: boolean = false;
 	toasterStatus!: string;
 	loggedInUser: User | undefined;
+	isDeleteDialog!: boolean;
+	rowDeleteId!: number
 	button: string = $localize`Save`;
 	columns: any = [
 		{
@@ -186,18 +189,37 @@ export class ToolQuantityComponent {
 		this.isCreateDialogOpen = true;
 	}
 
-	onDelete(value: any) {
-		console.log(value);
-		this.commonService.delete(`quantity/${value.id}`, false).subscribe({
+	public filterHandler(
+		fieldName: string = "",
+		value: string = "",
+		filterOperator: string = "Contain"
+	) {
+		this.childComponent?.onFilterAndSorting(fieldName, value, filterOperator);
+	}
+
+	deleteRecord(){
+		this.commonService.delete(`quantity/${this.rowDeleteId}`, false).subscribe({
 			next: (response: any) => {
 				console.log(response);
-				alert("delete successfully");
 				this.getData();
+				this.isDeleteDialog = false;
+				const deleteToast = document.getElementById("deleteToast") as Toast;
+				deleteToast.show();
+				this.filterHandler();
 			},
 			error: (error: any) => {
 				console.error("Error:", error);
 			},
 		});
+	}
+
+
+
+	onDelete(value: any) {
+		console.log(value.id);
+		this.isDeleteDialog = true;
+		this.rowDeleteId = value.id;
+		
 	}
 
 	validateGoodPartAmount(): boolean {
@@ -248,6 +270,7 @@ export class ToolQuantityComponent {
 		}
 
 		return this.isDataChanged;
+		
 	}
 
 	onSave() {
@@ -284,6 +307,7 @@ export class ToolQuantityComponent {
 				stockable_type: "ProdOrderPosOperation::class",
 				positionable_id: "",
 				positionable_type: "",
+				
 			});
 			this.goodPartAmount = "";
 		}
@@ -300,6 +324,7 @@ export class ToolQuantityComponent {
 					stockable_type: "ProdOrderPosOperation::class",
 					positionable_id: "",
 					positionable_type: "",
+					
 				});
 				this.scrapPartAmounts[index] = "";
 			}
@@ -351,5 +376,9 @@ export class ToolQuantityComponent {
 	getItemData(id: any) {
 		this.item = new Item().deserialize({ id: id });
 		this.itemImageComponent?.getMedia();
+	}
+
+	closeDeleteDialog(){
+		this.isDeleteDialog = false
 	}
 }
